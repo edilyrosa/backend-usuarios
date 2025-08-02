@@ -1,0 +1,48 @@
+# Archivos y carpetas del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Dependencias de Node.js
+node_modules/
+jspm_packages/
+
+# Build output
+dist/
+build/
+tmp/
+temp/
+
+# Entorno
+.env
+.env.*.local
+.env.local
+.env.test
+.env.production
+
+# Archivos de configuración de editor
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Base de datos local
+*.sqlite*
+*.db
+
+# Archivos temporales
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Cobertura de tests
+coverage/
+.nyc_output/
