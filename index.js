@@ -14,8 +14,9 @@ app.use(express.json())
 
 //app.use(cors({origin:'http://127.0.0.1:5501/index.html'})) //*permite solo ese dominio client
 
+//!ESTABA BOLQUEADO EN LA ULTIMA CLASE
 const allowedOrigins = [
-  'http://127.0.0.1:5501/index.html', //!ESTABA BOLQUEADO EN LA ULTIMA CLASE
+  'http://127.0.0.1:5501/index.html', 
   'http://127.0.0.1:3000/index.html',
   'http://miFamacasa.com',
 ]
