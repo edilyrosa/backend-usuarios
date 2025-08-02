@@ -8,7 +8,25 @@ import {supabase} from './supabaseClient.js'
 
 const app = express()
 app.use(express.json()) 
-app.use(cors()) //todo:explicar esto
+//todo:explicar esto
+//app.use(cors()) //*permite todos los clients que deseen hacer req
+//app.use(cors({origin:'*'})) //*permite todos los clients que deseen hacer req
+
+//app.use(cors({origin:'http://127.0.0.1:5501/index.html'})) //*permite solo ese dominio client
+
+const allowedOrigins = [
+  // 'http://127.0.0.1:5501/index.html',
+  'http://127.0.0.1:3000/index.html',
+  'http://miFamacasa.com',
+]
+
+app.use(cors({
+  origin: (origin, callback) =>{
+    if(!origin || allowedOrigins.includes(origin)) callback(null, true) //*✅ No hay error y origen autorizado
+    else callback(new Error('Origin NO permitido por CORS 🚫') , false) //*🚫 Origin No autorizado
+  }
+}))
+
 const PORT = 3000
 
 app.get('/', (req, res) => {
