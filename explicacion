@@ -439,17 +439,18 @@ app.use(cors()) ||   app.use(cors({ origin:'*'}))
 
 
 2️⃣
+//*👀👀👀👀🚩🚩🚩🤯 en la URL de los origin permitidos 🚫❌NO COLOCAR path ->./index.html❌🚫 
 
 app.use(cors({
-  origin:'http://127.0.0.1:5501/index.html'
+  origin:'http://127.0.0.1:5501🚫/index.html🚫'
 }))
 
 
 
 3️⃣
 const allowedOrigins = [
-  // 'http://127.0.0.1:5501/index.html',
-  'http://127.0.0.1:3000/index.html'
+  // 'http://127.0.0.1:5501',
+  'http://127.0.0.1:3000'
 ]
 app.use(cors({
   origin: (origin, callback) => {

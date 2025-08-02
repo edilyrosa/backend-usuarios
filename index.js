@@ -8,7 +8,10 @@ import {supabase} from './supabaseClient.js'
 
 const app = express()
 app.use(express.json()) 
-//todo:explicar esto
+
+
+//todo:explicar CORS"
+//*👀👀👀👀🚩🚩🚩🤯 en la URL de los origin permitidos 🚫❌NO COLOCAR path ->.index.html❌🚫 
 //app.use(cors()) //*permite todos los clients que deseen hacer req
 //app.use(cors({origin:'*'})) //*permite todos los clients que deseen hacer req
 
