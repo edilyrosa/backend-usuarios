@@ -18,7 +18,6 @@ app.use(express.json())
 const allowedOrigins = [
   'http://127.0.0.1:5501/index.html', 
   'http://127.0.0.1:3000/index.html',
-  'http://miFamacasa.com',
 ]
 
 app.use(cors({
@@ -27,6 +26,7 @@ app.use(cors({
     else callback(new Error('Origin NO permitido por CORS 🚫') , false) //*🚫 Origin No autorizado
   }
 }))
+
 
 const PORT = 3000
 
