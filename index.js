@@ -12,12 +12,12 @@ app.use(express.json())
 //app.use(cors()) //*permite todos los clients que deseen hacer req
 //app.use(cors({origin:'*'})) //*permite todos los clients que deseen hacer req
 
-//app.use(cors({origin:'http://127.0.0.1:5501/index.html'})) //*permite solo ese dominio client
+//app.use(cors({origin:'http://127.0.0.1:5501'})) //*permite solo ese dominio client
 
 //!ESTABA BOLQUEADO EN LA ULTIMA CLASE
 const allowedOrigins = [
-  'http://127.0.0.1:5501/index.html', 
-  'http://127.0.0.1:3000/index.html',
+  'http://127.0.0.1:5501', 
+  'http://127.0.0.1:3000',
 ]
 
 app.use(cors({
