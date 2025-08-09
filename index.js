@@ -8,19 +8,19 @@ import {supabase} from './supabaseClient.js'
 
 const app = express()
 app.use(express.json()) 
-
+const PORT = 3000
 
 //todo:explicar CORS"
 //*👀👀👀👀🚩🚩🚩🤯 en la URL de los origin permitidos 🚫❌NO COLOCAR path ->.index.html❌🚫 
-//app.use(cors()) //*permite todos los clients que deseen hacer req
-//app.use(cors({origin:'*'})) //*permite todos los clients que deseen hacer req
-
-//app.use(cors({origin:'http://127.0.0.1:5501'})) //*permite solo ese dominio client
+// app.use(cors()) //*permite todos los clients que deseen hacer req
+// app.use(cors({origin:'*'})) //*permite todos los clients que deseen hacer req
+// app.use(cors({origin:'http://127.0.0.1:5501'})) //*permite solo ese dominio client
 
 //!ESTABA BOLQUEADO EN LA ULTIMA CLASE
 const allowedOrigins = [
   'http://127.0.0.1:5501', 
   'http://127.0.0.1:3000',
+  'http://mitenda.com', //!tienes que permitirle al cliente consumir tu backend!!👀👀👀👀🚩🚩🚩🤯
 ]
 
 app.use(cors({
@@ -31,7 +31,79 @@ app.use(cors({
 }))
 
 
-const PORT = 3000
+
+
+//* 2. ************** Middleware para registrar logs en Supabase
+app.use(async (req, res, next) => {
+  // Prepara el log
+  const log = {
+    fecha: new Date().toISOString(),
+    ip: req.ip,
+    metodo: req.method,
+    ruta: req.originalUrl,
+    origen: req.headers.origin || 'directo',
+    user_agent: req.headers['user-agent'] || '',
+  };
+
+  // Guarda el log en Supabase
+  try {
+    await supabase.from('logs').insert([log]);
+
+    // Muestra en consola (para Render)
+    console.log(`[LOG] ${log.fecha} - ${log.metodo} ${log.ruta} desde ${log.origen} (${log.ip}) UA:${log.user_agent}`);
+  
+  } catch (error) {
+    console.error('Error guardando log en Supabase:', error);
+    // No detenemos la petición si falla el log
+  }
+
+  next();
+});
+
+
+
+//******************** Ruta para ver logs (protégela en producción)
+app.get("/logs", async (req, res) => {
+  const { data, error } = await supabase
+    .from("logs")
+    .select("*")
+    .order("fecha", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    console.error("Error al obtener logs:", error);
+    return res.status(500).json({ error: "Error al obtener logs" });
+  }
+  
+  res.json(data);
+});
+
+
+// 3. Configura EJS en tu app Express
+// Agrega esto al inicio de tu archivo principal (antes de las rutas):
+
+app.set('view engine', 'ejs');
+app.set('views', './views'); // Carpeta donde pondrás tus templates
+
+
+
+//*4. Crea la ruta en Express usando el template
+
+app.get('/logtabla', async (req, res) => {
+  const { data: logs, error } = await supabase
+    .from('logs')
+    .select('*')
+    .order('fecha', { ascending: false })
+    .limit(100);
+
+  if (error) return res.status(500).send('Error al obtener logs');
+
+  res.render('logtabla', { logs }); // Renderiza el template y pasa los logs
+});
+
+
+
+
 
 app.get('/', (req, res) => {
     res.send('Hola desde el backend')
@@ -100,6 +172,7 @@ app.delete('/usuarios/:id', async (req, res)=> {
       res.status(200).send('Usuario ELIMINADO exitosamente')
 
 })
+
 
 //!llenar .gitignire
 //TODO: Crear nuevo usuario: API Docus -> tables & views -> Insert a row
